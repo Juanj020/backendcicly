@@ -69,11 +69,11 @@ class Server{
         });
     }
 
-    listen(){
+    /* listen(){
         this.app.listen(this.port, ()=>{
             console.log(`El server esta corriendo el el puerto: ${this.port}`);
         })
-    }
+    } */
 
 }
 
