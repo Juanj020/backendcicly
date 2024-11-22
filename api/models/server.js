@@ -48,6 +48,8 @@ class Server{
     }
 
     routes(){
+        this.app.use("/api", console.log("hola")
+        );
         this.app.use(this.usuarioPath, usuarioRouter);
         this.app.use(this.productoPath, productoRouter);
         this.app.use(this.noticiaPath, noticiaRouter);
@@ -69,11 +71,11 @@ class Server{
         });
     }
 
-    /* listen(){
+    listen(){
         this.app.listen(this.port, ()=>{
             console.log(`El server esta corriendo el el puerto: ${this.port}`);
         })
-    } */
+    }
 
 }
 
