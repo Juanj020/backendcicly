@@ -50,6 +50,7 @@ class Server{
     routes(){
         this.app.use("/api", console.log("hola")
         );
+        this.app.use('/api/usuariosss', usuarioRouter);
         this.app.use(this.usuarioPath, usuarioRouter);
         this.app.use(this.productoPath, productoRouter);
         this.app.use(this.noticiaPath, noticiaRouter);
