@@ -1,4 +1,5 @@
 import Noticias from "../models/Noticia.js";
+import { buscarNoticiasCiclismoSantander } from "./../utils/scrapper.js";
 
 const getNoticias = async (req, res) =>{
     try {
@@ -75,4 +76,25 @@ const deleteNoticias = async (req,res)=>{
     }
 } 
 
-export {getNoticias, postNoticias, deleteNoticias, getNoticiasId, putNoticias, getNoticiasUsuario};
+const importarNoticiasExterna = async (req, res) => {
+  try {
+    const nuevasNoticias = await buscarNoticiasCiclismoSantander();
+    const guardadas = [];
+
+    for (const noticia of nuevasNoticias) {
+      const existe = await Noticias.findOne({ titulo: noticia.titulo });
+      if (!existe) {
+        const nueva = new Noticias({ ...noticia, autor: req.usuario._id || 'DEFAULT_ID', estado: 'Visible' });
+        await nueva.save();
+        guardadas.push(nueva);
+      }
+    }
+
+    res.json({ msg: 'Importación completada', guardadas });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Error al importar noticias externas' });
+  }
+};
+
+export {getNoticias, postNoticias, deleteNoticias, getNoticiasId, putNoticias, getNoticiasUsuario, importarNoticiasExterna};
