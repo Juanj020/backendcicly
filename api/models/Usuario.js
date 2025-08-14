@@ -20,6 +20,9 @@ const usuarioShema = mongoose.Schema({
         type: Number,
         required: [true, 'El teléfono es obligatorio']
     },
+    otp: { 
+        type: Number
+    },
     rol: {
         type: String,
         enum: ['USER', 'ADMIN'],  // Validación para los roles permitidos

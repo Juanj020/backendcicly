@@ -1,6 +1,6 @@
 import Router from "express";
 import { check } from "express-validator";
-import { login } from "../controllers/auth.controller.js";
+import { login, sendOtp, resetPassword } from "../controllers/auth.controller.js";
 import validarDocumentos from "../middlewares/validate.documents.js";
 import auth from '../middlewares/auth.js'; // Middleware de autenticación
 
@@ -21,5 +21,18 @@ router.get('/profile', auth, (req, res) => {
         rol: req.user.rol
     });
 });
+
+router.post("/send-otp", [
+    check('email', 'El email es obligatorio').isEmail(),
+    validarDocumentos
+], sendOtp);
+
+router.post("/reset-password", [
+    check('email', 'El email es obligatorio').isEmail(),
+    check('otp', 'El código OTP es obligatorio').not().isEmpty(),
+    check('password', 'La nueva contraseña es obligatoria').not().isEmpty(),
+    validarDocumentos
+], resetPassword);
+
 
 export default router;
