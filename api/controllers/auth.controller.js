@@ -1,6 +1,6 @@
 import response from 'express';
 import Usuario from '../models/Usuario.js';
-import bcryptjs from 'bcryptjs';
+import bcrypt from "bcrypt";
 import generateJWT from '../helpers/generateJWT.js'; // Importa el helper para generar JWT
 import nodemailer from "nodemailer";
 
@@ -58,10 +58,10 @@ const transporter = nodemailer.createTransport({
 // 1️⃣ Solicitar código
 const sendOtp = async (req, res) => {
   try {
-    const { email } = req.body;
+    const { correo } = req.body;
 
     // Si Usuario es un modelo de Mongoose, aquí debería ser findOne, no find
-    const user = await Usuario.findOne({ email });
+    const user = await Usuario.findOne({ correo });
 
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
@@ -75,7 +75,7 @@ const sendOtp = async (req, res) => {
 
     await transporter.sendMail({
       from: `"Soporte" <${process.env.EMAIL_USER}>`,
-      to: email,
+      to: correo,
       subject: "Código de recuperación",
       text: `Tu código de recuperación es: ${otp}`
     });
@@ -91,10 +91,10 @@ const sendOtp = async (req, res) => {
 // 2️⃣ Verificar código y cambiar contraseña
 const resetPassword = async (req, res) => {
   try {
-    const { email, otp, password } = req.body;
+    const { correo, otp, password } = req.body;
 
-    // Buscar usuario por email
-    const user = await Usuario.findOne({ email });
+    // Buscar usuario por correo
+    const user = await Usuario.findOne({ correo });
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }

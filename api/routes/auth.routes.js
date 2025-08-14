@@ -23,12 +23,12 @@ router.get('/profile', auth, (req, res) => {
 });
 
 router.post("/send-otp", [
-    check('email', 'El email es obligatorio').isEmail(),
+    check('correo', 'El email es obligatorio').isEmail(),
     validarDocumentos
 ], sendOtp);
 
 router.post("/reset-password", [
-    check('email', 'El email es obligatorio').isEmail(),
+    check('correo', 'El email es obligatorio').isEmail(),
     check('otp', 'El código OTP es obligatorio').not().isEmpty(),
     check('password', 'La nueva contraseña es obligatoria').not().isEmpty(),
     validarDocumentos
