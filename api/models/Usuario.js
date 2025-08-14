@@ -23,6 +23,9 @@ const usuarioShema = mongoose.Schema({
     otp: { 
         type: Number
     },
+    otpExpires: { 
+        type: Date 
+    },
     rol: {
         type: String,
         enum: ['USER', 'ADMIN'],  // Validación para los roles permitidos
