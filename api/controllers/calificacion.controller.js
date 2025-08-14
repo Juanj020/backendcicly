@@ -12,6 +12,28 @@ export const getCalificacionesTotal = async (req, res) => {
     }
 };
 
+export const getPromedioPorRuta = async (req, res) => {
+    try {
+        const { rutaId } = req.params;
+        const calificaciones = await Calificacion.find({ rutaId });
+
+        if (!calificaciones.length) {
+            return res.json({ promedio: 0, totalVotos: 0 });
+        }
+
+        const suma = calificaciones.reduce((acc, c) => acc + c.rating, 0);
+        const promedio = suma / calificaciones.length;
+
+        res.json({
+            promedio: Number(promedio.toFixed(1)), // Redondeado a 1 decimal
+            totalVotos: calificaciones.length
+        });
+    } catch (error) {
+        console.error("Error al calcular promedio:", error);
+        res.status(500).json({ error: 'Error al calcular promedio' });
+    }
+};
+
 export const getCalificacionId = async (req, res) => {
     try {
         const calificacion = await Calificacion.findOne({_id : req.params.id})

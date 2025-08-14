@@ -7,12 +7,14 @@ import {
     updateCalificacion, 
     deleteCalificacion, 
     getCalificacionId, 
-    getCalificacionUsuario 
+    getCalificacionUsuario,
+    getPromedioPorRuta 
 } from '../controllers/calificacion.controller.js';
 
 const router = Router();
 router.post('/calificar-ruta', createCalificacion);
 router.get('/calificaciones/:rutaId', getCalificaciones);
+router.get('/promedio/:rutaId', getPromedioPorRuta);
 router.get('/', getCalificacionesTotal);
 router.get('/:id', getCalificacionId);
 router.get('/ruta/:rutaId/usuario/:userId', getCalificacionUsuario);
