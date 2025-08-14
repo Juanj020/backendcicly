@@ -3,7 +3,7 @@ import Tienda from "./../models/Tienda.js";
 
 const router = express.Router();
 
-router.post("/tiendas", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const nuevaTienda = new Tienda(req.body);
     await nuevaTienda.save();
@@ -13,7 +13,7 @@ router.post("/tiendas", async (req, res) => {
   }
 });
 
-router.get("/tiendas", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const tiendas = await Tienda.find().sort({ fecha: -1 });
     res.json(tiendas);

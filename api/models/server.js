@@ -12,7 +12,7 @@ import calificacionRoutes from '../routes/calificacion.routes.js';
 import auth from '../middlewares/auth.js'; 
 import authRole from '../middlewares/authRole.js'; 
 import incidenciaRouter from '../routes/incidencia.routes.js'; 
-// import tiendaRouter from '../routes/tienda.routes.js';
+import tiendaRouter from '../routes/tienda.routes.js';
 
 class Server{
 
@@ -59,7 +59,7 @@ class Server{
         this.app.use(this.calificacionPath, calificacionRoutes);
         this.app.use(this.incidenciaPath, incidenciaRouter);
         this.app.use(this.authPath, authRouter);
-        // this.app.use(this.tiendaPath, tiendaRouter);
+        this.app.use(this.tiendaPath, tiendaRouter);
 
         // Ejemplo de ruta protegida solo para administradores
         this.app.get('/api/admin', auth, authRole('ADMIN'), (req, res) => {
