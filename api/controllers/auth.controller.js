@@ -28,7 +28,13 @@ const login = async (req, res = response) => {
         }
 
         // Generar el token JWT usando el helper
-        const token = await generateJWT(usuario._id, usuario.nombre, usuario.rol);
+        const token = await generateJWT(
+            usuario._id,
+            usuario.nombre,
+            usuario.rol,
+            usuario.correo,
+            usuario.telefono
+        );
 
         // Responder con el token y la información del usuario
         res.json({
@@ -36,6 +42,8 @@ const login = async (req, res = response) => {
             token,
             userId: usuario._id,
             nombre: usuario.nombre,
+            correo: usuario.correo,    // 👈 agregado
+            telefono: usuario.telefono,
             rol: usuario.rol
         });
     } catch (error) {
