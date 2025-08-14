@@ -1,6 +1,6 @@
 import response from 'express';
 import Usuario from '../models/Usuario.js';
-import bcrypt from "bcryptjs";
+import bcryptjs from "bcryptjs";
 import generateJWT from '../helpers/generateJWT.js'; // Importa el helper para generar JWT
 import nodemailer from "nodemailer";
 import 'dotenv/config';
@@ -106,7 +106,7 @@ const resetPassword = async (req, res) => {
     }
 
     // Actualizar contraseña y limpiar OTP
-    user.password = await bcrypt.hash(password, 10);
+    user.password = await bcryptjs.hash(password, 10);
     user.otp = null;
     user.otpExpires = null;
 
