@@ -14,7 +14,7 @@ const getRutas = async (req, res) => {
 const getRutasVisibles = async (req, res) => {
     try {
         // 1️⃣ Obtener rutas visibles
-        const rutas = await Rutas.find({ visible: true }).lean();
+        const rutas = await Rutas.find({ estado: "Visible" }).lean();
 
         // 2️⃣ Obtener promedios de calificaciones
         const calificaciones = await Calificacion.aggregate([
@@ -47,6 +47,7 @@ const getRutasVisibles = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener rutas visibles' });
     }
 };
+
 const getRutasId = async (req, res) => {
     try {
         const ruta = await Rutas.findById(req.params.id);
