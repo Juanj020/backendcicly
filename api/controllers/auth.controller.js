@@ -1,6 +1,6 @@
 import response from 'express';
 import Usuario from '../models/Usuario.js';
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import generateJWT from '../helpers/generateJWT.js'; // Importa el helper para generar JWT
 import nodemailer from "nodemailer";
 
