@@ -1,10 +1,20 @@
 import Rutas from "../models/Ruta.js";
 import Calificacion from '../models/Calificacion.js';
 
-export const getRutasVisibles = async (req, res) => {
+const getRutas = async (req, res) => {
+    try {
+        const ruta = await Rutas.find();
+        res.json(ruta);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Error al obtener rutas' });
+    }
+};
+
+const getRutasVisibles = async (req, res) => {
     try {
         // 1️⃣ Obtener rutas visibles
-        const rutas = await Ruta.find({ visible: true }).lean();
+        const rutas = await Rutas.find({ visible: true }).lean();
 
         // 2️⃣ Obtener promedios de calificaciones
         const calificaciones = await Calificacion.aggregate([
@@ -37,17 +47,6 @@ export const getRutasVisibles = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener rutas visibles' });
     }
 };
-
-const getRutasVisibles = async (req, res) => {
-    try {
-        const ruta = await Rutas.find({"estado": "Visible"});
-        res.json(ruta);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ msg: 'Error al obtener rutas' });
-    }
-};
-
 const getRutasId = async (req, res) => {
     try {
         const ruta = await Rutas.findById(req.params.id);
