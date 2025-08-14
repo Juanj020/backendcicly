@@ -3,6 +3,7 @@ import Usuario from '../models/Usuario.js';
 import bcrypt from "bcryptjs";
 import generateJWT from '../helpers/generateJWT.js'; // Importa el helper para generar JWT
 import nodemailer from "nodemailer";
+import 'dotenv/config';
 
 const login = async (req, res = response) => {
     const { correo, password } = req.body;
