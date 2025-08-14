@@ -1,12 +1,40 @@
 import Rutas from "../models/Ruta.js";
+import Calificacion from '../models/Calificacion.js';
 
-const getRutas = async (req, res) => {
+export const getRutasVisibles = async (req, res) => {
     try {
-        const ruta = await Rutas.find();
-        res.json(ruta);
+        // 1️⃣ Obtener rutas visibles
+        const rutas = await Ruta.find({ visible: true }).lean();
+
+        // 2️⃣ Obtener promedios de calificaciones
+        const calificaciones = await Calificacion.aggregate([
+            { $group: {
+                _id: "$rutaId",
+                promedio: { $avg: "$rating" },
+                totalVotos: { $sum: 1 }
+            }}
+        ]);
+
+        // 3️⃣ Crear un mapa para acceso rápido
+        const calMap = {};
+        calificaciones.forEach(c => {
+            calMap[c._id.toString()] = {
+                promedio: parseFloat(c.promedio.toFixed(1)),
+                totalVotos: c.totalVotos
+            };
+        });
+
+        // 4️⃣ Añadir los datos a cada ruta
+        const rutasConRating = rutas.map(r => ({
+            ...r,
+            promedio: calMap[r._id.toString()]?.promedio || 0,
+            totalVotos: calMap[r._id.toString()]?.totalVotos || 0
+        }));
+
+        res.json(rutasConRating);
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ msg: 'Error al obtener rutas' });
+        console.error('Error al obtener rutas visibles:', error);
+        res.status(500).json({ error: 'Error al obtener rutas visibles' });
     }
 };
 
