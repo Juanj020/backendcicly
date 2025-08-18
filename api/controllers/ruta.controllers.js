@@ -129,4 +129,31 @@ const deleteRutas = async (req, res) => {
     }
 };
 
-export { getRutas, postRutas, deleteRutas, getRutasId, putRutas, getRutasVisibles };
+const putRutasEstado = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { estado } = req.body;
+        
+        // Verifica que el estado sea válido
+        if (estado !== 'Visible' && estado !== 'Invisible') {
+            return res.status(400).json({ msg: 'Estado de ruta no válido' });
+        }
+
+        const rutaActualizada = await Rutas.findByIdAndUpdate(
+            id, 
+            { estado: estado }, 
+            { new: true }
+        );
+
+        if (!rutaActualizada) {
+            return res.status(404).json({ msg: 'Ruta no encontrada' });
+        }
+
+        res.json(rutaActualizada);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'Error al actualizar el estado de la ruta' });
+    }
+};
+
+export { getRutas, postRutas, deleteRutas, getRutasId, putRutas, getRutasVisibles, putRutasEstado };

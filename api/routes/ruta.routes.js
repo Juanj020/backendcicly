@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 import validateDocuments from "../middlewares/validate.documents.js";
 
-import { getRutas, postRutas, deleteRutas, getRutasId, putRutas, getRutasVisibles } from "../controllers/ruta.controllers.js";
+import { getRutas, postRutas, deleteRutas, getRutasId, putRutas, getRutasVisibles, putRutasEstado } from "../controllers/ruta.controllers.js";
 import { check } from 'express-validator';
 
 router.get('/', getRutas);
@@ -19,5 +19,6 @@ router.post('/', [
 router.get('/:id', getRutasId);
 router.delete('/:id', deleteRutas);
 router.put('/:id', putRutas);
+router.put('/estado/:id', putRutasEstado);
 
 export default router;
