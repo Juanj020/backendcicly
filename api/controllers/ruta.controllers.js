@@ -63,19 +63,42 @@ const getRutasId = async (req, res) => {
 
 const postRutas = async (req, res) => {
     try {
-        const { nombreRut, descripcion, dificultad, kilometros, punto_partida, punto_llegada, tiempo_aprox, altitud_min, altitud_max,
+        const {
+            nombreRut,
+            descripcion,
+            dificultad,
+            kilometros,
+            punto_partida,
+            punto_llegada,
+            tiempo_aprox,
+            altitud_min,
+            altitud_max,
             recomendaciones,
-            imagen,
+            imagen, // 👈 Ahora recibirá la cadena Base64
             link,
             estado,
-            creado_por } = req.body;
+            creado_por,
+        } = req.body;
 
-        const ruta = new Rutas({ nombreRut, descripcion, dificultad, kilometros, punto_partida, punto_llegada, tiempo_aprox, altitud_min, altitud_max,
+        // Si quieres ver la cadena Base64 que llega, puedes descomentar la siguiente línea:
+        // console.log('Imagen recibida (Base64):', imagen.substring(0, 50) + '...');
+
+        const ruta = new Rutas({
+            nombreRut,
+            descripcion,
+            dificultad,
+            kilometros,
+            punto_partida,
+            punto_llegada,
+            tiempo_aprox,
+            altitud_min,
+            altitud_max,
             recomendaciones,
             imagen,
             link,
             estado,
-            creado_por })
+            creado_por,
+        });
 
         const existeRuta = await Rutas.findOne({ nombreRut });
         if (existeRuta) {
