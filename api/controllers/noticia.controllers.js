@@ -97,4 +97,35 @@ const importarNoticiasExterna = async (req, res) => {
   }
 };
 
-export {getNoticias, postNoticias, deleteNoticias, getNoticiasId, putNoticias, getNoticiasUsuario, importarNoticiasExterna};
+const toggleNoticiaVisibilidad = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { estado } = req.body;
+
+    const noticia = await Noticias.findByIdAndUpdate(
+      id,
+      { estado },
+      { new: true, runValidators: true }
+    );
+
+    if (!noticia) {
+      return res.status(404).json({ msg: 'Noticia no encontrada' });
+    }
+
+    res.json(noticia);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Error al cambiar el estado de la noticia' });
+  }
+};
+
+export {
+  getNoticias,
+  postNoticias,
+  deleteNoticias,
+  getNoticiasId,
+  putNoticias,
+  getNoticiasUsuario,
+  importarNoticiasExterna,
+  toggleNoticiaVisibilidad,
+};

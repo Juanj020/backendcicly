@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 import validateDocuments from "../middlewares/validate.documents.js";
 
-import { getNoticias, postNoticias, getNoticiasId, deleteNoticias, putNoticias, getNoticiasUsuario, importarNoticiasExterna } from '../controllers/noticia.controllers.js';
+import { getNoticias, postNoticias, getNoticiasId, deleteNoticias, putNoticias, getNoticiasUsuario, importarNoticiasExterna, toggleNoticiaVisibilidad } from '../controllers/noticia.controllers.js';
 import { check } from 'express-validator';
 
 router.get('/', getNoticias);
@@ -19,5 +19,6 @@ router.post('/noti/importar-externas', importarNoticiasExterna);
 router.get('/:id', getNoticiasId);
 router.delete('/:id', deleteNoticias);
 router.put('/:id', putNoticias);
+router.put('/estado/:id', toggleNoticiaVisibilidad);
 
 export default router;
