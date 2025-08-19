@@ -1,25 +1,21 @@
-import express from "express";
-import Tienda from "./../models/Tienda.js";
+// src/routes/tienda.routes.js
+import { Router } from "express";
+import {
+    getTiendas,
+    getTiendasVisibles,
+    postTienda,
+    putTienda,
+    deleteTienda,
+    toggleTiendaVisibilidad
+} from "../controllers/tienda.controller.js";
 
-const router = express.Router();
+const router = Router();
 
-router.post("/", async (req, res) => {
-  try {
-    const nuevaTienda = new Tienda(req.body);
-    await nuevaTienda.save();
-    res.status(201).json(nuevaTienda);
-  } catch (error) {
-    res.status(500).json({ mensaje: "Error al guardar tienda", error });
-  }
-});
-
-router.get("/", async (req, res) => {
-  try {
-    const tiendas = await Tienda.find().sort({ fecha: -1 });
-    res.json(tiendas);
-  } catch (error) {
-    res.status(500).json({ mensaje: "Error al obtener tiendas", error });
-  }
-});
+router.get("/admin", getTiendas); // Para el panel de administración
+router.get("/", getTiendasVisibles); // Para la vista pública de tiendas
+router.post("/", postTienda);
+router.put("/:id", putTienda);
+router.put("/visibilidad/:id", toggleTiendaVisibilidad);
+router.delete("/:id", deleteTienda);
 
 export default router;
